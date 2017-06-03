@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"> 
+
+    <head>
+        <title>NodePublisher</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <style type="text/css" media="screen"> 
+            html, body  { height:100%; }
+            body { margin:0; padding:0; overflow:auto; text-align:center; 
+                   background-color: #ffffff; }   
+            object:focus { outline:none; }
+            #flashContent { display:none; }
+        </style>
+        <script type="text/javascript" src="swfobject.js"></script>
+        <script type="text/javascript">
+            // For version detection, set to min. required Flash Player version, or 0 (or 0.0.0), for no version detection. 
+            var swfVersionStr = "11.1.0";
+            // To use express install, set to playerProductInstall.swf, otherwise the empty string. 
+            var xiSwfUrlStr = "playerProductInstall.swf";
+            var flashvars = {};
+            var params = {};
+            params.quality = "high";
+            params.bgcolor = "#ffffff";
+            params.allowscriptaccess = "sameDomain";
+            params.allowfullscreen = "true";
+            var attributes = {};
+            attributes.id = "NodePublisher";
+            attributes.name = "NodePublisher";
+            attributes.align = "middle";
+            swfobject.embedSWF(
+                "NodePublisher.swf", "flashContent", 
+                "640", "360",
+                swfVersionStr, xiSwfUrlStr, 
+                flashvars, params, attributes);
+            // JavaScript enabled so display the flashContent div in case it is not replaced with a swf object.
+            swfobject.createCSS("#flashContent", "display:block;text-align:left;");
+
+            function selectCamera() {
+                var np = document.getElementById("NodePublisher");
+                np.selectCamera();
+            }
+
+            function selectMicrophone() {
+                var np = document.getElementById("NodePublisher");
+                np.selectMicrophone();
+            }
+            
+            function startPreview() {
+                var np = document.getElementById("NodePublisher");
+                np.setOptions({videoWidth:640,videoHeight:360,videoQuality:90});//开始预览前设置视频参数
+                np.preview();//开始预览
+            }
+
+            function startPublish() {
+                var np = document.getElementById("NodePublisher");
+                np.setOptions({streamURL:document.getElementById('userInput').value});//开始发布前设置流地址
+                np.start();//开始发布
+            }
+
+            function stopPublish() {
+                var np = document.getElementById("NodePublisher");
+                np.stop();//停止发布
+            }
+
+            //事件回调函数，只能是这个函数名
+            function eventCallback(event) {
+                console.log("EventCallback", new Date, event)
+            }
+        </script>
+    </head>
+    <body>
+        <div id="flashContent">
+            <p>
+                To view this page ensure that Adobe Flash Player version 
+                11.1.0 or greater is installed. 
+            </p>
+            <script type="text/javascript"> 
+                var pageHost = ((document.location.protocol == "https:") ? "https://" : "http://"); 
+                document.write("<a href='http://www.adobe.com/go/getflashplayer'><img src='" 
+                                + pageHost + "www.adobe.com/images/shared/download_buttons/get_flash_player.gif' alt='Get Adobe Flash player' /></a>" ); 
+            </script> 
+        </div>
+        <p>
+            RTMP推流地址:<input id="userInput" value="rtmp://192.168.0.10/live/demo" size="80"> <br />
+            <button onclick="selectCamera()">选择摄像头(SelectCamera)</button><br/>
+            <button onclick="selectMicrophone()">选择麦克风(SelectMicrophone)</button><br/>
+            <button onclick="startPreview()">开始预览(StartPreview)</button><br/>
+            <button onclick="startPublish()">开始发布(StartPublish)</button><br/>
+            <button onclick="stopPublish()">停止发布(StopPublish)</button><br/>
+        </p>
+        <noscript>
+            <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="100%" height="100%" id="NodePublisher">
+                <param name="movie" value="NodePublisher.swf" />
+                <param name="quality" value="high" />
+                <param name="bgcolor" value="#ffffff" />
+                <param name="allowScriptAccess" value="sameDomain" />
+                <param name="allowFullScreen" value="true" />
+                <!--[if !IE]>-->
+                <object type="application/x-shockwave-flash" data="NodePublisher.swf" width="100%" height="100%">
+                    <param name="quality" value="high" />
+                    <param name="bgcolor" value="#ffffff" />
+                    <param name="allowScriptAccess" value="sameDomain" />
+                    <param name="allowFullScreen" value="true" />
+                <!--<![endif]-->
+                <!--[if gte IE 6]>-->
+                    <p> 
+                        Either scripts and active content are not permitted to run or Adobe Flash Player version
+                        11.1.0 or greater is not installed.
+                    </p>
+                <!--<![endif]-->
+                    <a href="http://www.adobe.com/go/getflashplayer">
+                        <img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash Player" />
+                    </a>
+                <!--[if !IE]>-->
+                </object>
+                <!--<![endif]-->
+            </object>
+        </noscript>     
+   </body>
+</html>
